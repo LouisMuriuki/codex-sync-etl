@@ -6,3 +6,4 @@
 2025-11-24 22:41:28,129 - INFO - root - Invalid ICD-10 rows (format issues): 2
 2025-11-24 22:41:28,135 - INFO - root - Final clean dataset contains 3 rows
 2025-11-24 22:41:28,135 - INFO - __main__ - ✅ ICD-10 WHO processing completed successfully
+2025-11-25 14:22:52,532 - INFO - root - Using existing file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/icd10who_codes_2024.csv
