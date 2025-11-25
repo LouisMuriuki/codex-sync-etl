@@ -7,6 +7,7 @@ Production-style ETL pipelines for processing and standardizing major medical co
 - ICD-10 (WHO) – International disease classification codes
 - ICD-10-CM (US) – Diagnosis codes
 - NPI (US) – National Provider Identifier registry
+- HCPCS (US) – Healthcare procedure codes
 
 ## 📁 Project Structure
 
@@ -121,6 +122,36 @@ Optional: download via env var
 ```bash
 export ICD10CM_URL="https://example.com/icd10cm_codes_2024.txt"
 python scripts/icd10cm_processor.py
+```
+
+## ▶️ Run: HCPCS (US)
+
+Place your HCPCS file at:
+```
+input/hcpcs_codes_2024.csv
+```
+
+Expected columns (flexible):
+- HCPCS or Code
+- One of:
+  - Long Description
+  - Description
+  - Short Description
+
+Run:
+```bash
+python scripts/hcpcs_processor.py
+```
+
+Output:
+```
+output/csv/hcpcs_clean.csv
+```
+
+Optional: download via env var
+```bash
+export HCPCS_URL="https://example.com/hcpcs_codes_2024.csv"
+python scripts/hcpcs_processor.py
 ```
 
 ## 📦 Standardized Output Schema
