@@ -5,6 +5,7 @@ Production-style ETL pipelines for processing and standardizing major medical co
 ## ✅ Currently Implemented Codexes
 
 - ICD-10 (WHO) – International disease classification codes
+- ICD-10-CM (US) – Diagnosis codes
 - NPI (US) – National Provider Identifier registry
 
 ## 📁 Project Structure
@@ -90,6 +91,36 @@ Optional: download via env var
 ```bash
 export NPI_URL="https://example.com/npi_registry.csv"
 python scripts/npi_processor.py
+```
+
+## ▶️ Run: ICD-10-CM (US)
+
+Place your ICD-10-CM file at:
+```
+input/icd10cm_codes_2024.txt
+```
+
+Expected columns (flexible):
+- Code
+- One of:
+  - Long Description
+  - Description
+  - Short Description
+
+Run:
+```bash
+python scripts/icd10cm_processor.py
+```
+
+Output:
+```
+output/csv/icd10cm_clean.csv
+```
+
+Optional: download via env var
+```bash
+export ICD10CM_URL="https://example.com/icd10cm_codes_2024.txt"
+python scripts/icd10cm_processor.py
 ```
 
 ## 📦 Standardized Output Schema
