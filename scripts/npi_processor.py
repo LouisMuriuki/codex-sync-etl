@@ -1,8 +1,16 @@
 import re
 from pathlib import Path
 from typing import Tuple, Optional, List
+import sys
+
+# Ensure project root is on sys.path when running this file directly
+CURRENT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = CURRENT_DIR.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
+import logging
 
 from utils.common_functions import (
     setup_logging,
@@ -11,6 +19,7 @@ from utils.common_functions import (
     save_to_formats,
     basic_cleanup,
     save_invalid_rows,
+    resolve_latest_npi_monthly_zip,
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -121,7 +130,18 @@ def clean_npi_data(df: pd.DataFrame, npi_col: str) -> pd.DataFrame:
 
 def main():
     setup_logging(LOG_DIR / "npi.log")
-    raw_path = ensure_file(RAW_FILE, "NPI_URL", timeout=60, retries=3)
+    logging.info("=" * 60)
+    logging.info("Starting NPI processor")
+    logging.info("=" * 60)
+    raw_path = ensure_file(
+        RAW_FILE,
+        "NPI_URL",
+        timeout=60,
+        retries=3,
+        prefer_regex=r"npidata_pfile_.*\.csv$",
+        exclude_regex=r"(FileHeader|FileSchema)",
+        url_override=resolve_latest_npi_monthly_zip(),
+    )
     raw_df = pd.read_csv(raw_path, dtype=str, on_bad_lines="warn", low_memory=False)
     valid_df, invalid_df, npi_col = validate_npi_data(raw_df)
     if not invalid_df.empty:

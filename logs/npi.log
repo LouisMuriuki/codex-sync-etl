@@ -1,0 +1,11 @@
+2025-11-30 19:18:23,828 - INFO - root - Using existing file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/npi_registry.csv
+2025-11-30 19:19:57,715 - INFO - root - ============================================================
+2025-11-30 19:19:57,715 - INFO - root - Starting NPI processor
+2025-11-30 19:19:57,715 - INFO - root - ============================================================
+2025-11-30 19:19:57,964 - INFO - root - 📁 Using existing local file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/npi_registry.csv
+2025-11-30 19:19:57,964 - INFO - root -    Source: LOCAL FILE (no download needed)
+2025-11-30 19:21:19,050 - INFO - root - ============================================================
+2025-11-30 19:21:19,051 - INFO - root - Starting NPI processor
+2025-11-30 19:21:19,051 - INFO - root - ============================================================
+2025-11-30 19:21:19,756 - INFO - root - 📁 Using local file fallback: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/npi_registry.csv
+2025-11-30 19:21:19,756 - INFO - root -    Source: LOCAL FILE (online download failed or unavailable)

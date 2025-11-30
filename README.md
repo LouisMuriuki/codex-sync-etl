@@ -8,16 +8,24 @@ Production-style ETL pipelines for processing and standardizing major medical co
 - ICD-10-CM (US) – Diagnosis codes
 - NPI (US) – National Provider Identifier registry
 - HCPCS (US) – Healthcare procedure codes
+- LOINC (US) – Logical Observation Identifiers, Names, and Codes
+- RxNorm (US) – RxNorm Normative Pharmacologic Classification
+- SNOMED CT (US) – Systematized Nomenclature of Medicine, Clinical Terms
 
 ## 📁 Project Structure
 
 ```
 medical-codex-pipeline/
 
-├── input/              # Raw data files (excluded from Git)
+├── input/              # Raw data files
 ├── scripts/            # ETL processing scripts
 │   ├── icd10who_processor.py
-│   └── npi_processor.py
+│   ├── icd10cm_processor.py
+│   ├── hcpcs_processor.py
+│   ├── npi_processor.py
+│   ├── loinc_processor.py
+│   ├── rxnorm_processor.py
+│   ├── snomed_processor.py
 ├── output/
 │   └── csv/            # Clean standardized CSV outputs
 ├── utils/              # Shared utility functions
@@ -28,17 +36,27 @@ medical-codex-pipeline/
 ## ⚙️ Setup
 
 ```bash
-git clone <your-repo>
 cd medical-codex-pipeline
-python -m venv venv
-source venv/bin/activate       # Mac/Linux
-venv\Scripts\activate          # Windows
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## ▶️ Run: ICD-10 (WHO)
+## 🌐 Quick demo 
 
-Place your ICD-10 file at:
+```bash
+python scripts/icd10cm_processor.py
+python scripts/hcpcs_processor.py
+python scripts/npi_processor.py
+python scripts/icd10who_processor.py
+python scripts/loinc_processor.py
+python scripts/rxnorm_processor.py
+python scripts/snomed_processor.py
+```
+
+## ▶️ Run: ICD-10 (WHO) example
+
+Place the ICD-10 file at:
 
 ```
 input/icd10who_codes_2024.csv
@@ -59,98 +77,9 @@ Output:
 output/csv/icd10who_clean.csv
 ```
 
-Optional: download via env var
+Download via env var
 ```bash
-export ICD10WHO_URL="https://example.com/icd10who_codes_2024.csv"
-python scripts/icd10who_processor.py
-```
-
-## ▶️ Run: NPI (US)
-
-Place your NPI file at:
-```
-input/npi_registry.csv
-```
-
-Minimum columns (the script adapts to common NPPES headers):
-- NPI
-- One of:
-  - Provider Organization Name (Legal Business Name)
-  - Provider Last Name (Legal Name) + Provider First Name
-
-Run:
-```bash
-python scripts/npi_processor.py
-```
-
-Output:
-```
-output/csv/npi_clean.csv
-```
-
-Optional: download via env var
-```bash
-export NPI_URL="https://example.com/npi_registry.csv"
-python scripts/npi_processor.py
-```
-
-## ▶️ Run: ICD-10-CM (US)
-
-Place your ICD-10-CM file at:
-```
-input/icd10cm_codes_2024.txt
-```
-
-Expected columns (flexible):
-- Code
-- One of:
-  - Long Description
-  - Description
-  - Short Description
-
-Run:
-```bash
-python scripts/icd10cm_processor.py
-```
-
-Output:
-```
-output/csv/icd10cm_clean.csv
-```
-
-Optional: download via env var
-```bash
-export ICD10CM_URL="https://example.com/icd10cm_codes_2024.txt"
-python scripts/icd10cm_processor.py
-```
-
-## ▶️ Run: HCPCS (US)
-
-Place your HCPCS file at:
-```
-input/hcpcs_codes_2024.csv
-```
-
-Expected columns (flexible):
-- HCPCS or Code
-- One of:
-  - Long Description
-  - Description
-  - Short Description
-
-Run:
-```bash
-python scripts/hcpcs_processor.py
-```
-
-Output:
-```
-output/csv/hcpcs_clean.csv
-```
-
-Optional: download via env var
-```bash
-export HCPCS_URL="https://example.com/hcpcs_codes_2024.csv"
+export HCPCS_URL="https://www.cms.gov/files/zip/2024-alpha-numeric-hcpcs-file.zip"
 python scripts/hcpcs_processor.py
 ```
 
@@ -175,8 +104,12 @@ A00,Cholera,2025-01-01 12:00:00
 - logging
 - pathlib
 
-## 🚀 Roadmap
+## 🔗 Data Sources (for testing/downloading)
 
-- Add SNOMED, LOINC, RxNorm, HCPCS processors
-- Optional web downloads for all codexes
-- GitHub Actions for scheduled refresh and validation
+- ICD-10-CM: `https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/` (codes_{year}.txt)
+- ICD-10 (WHO): various conversions exist; supply CSV with Code/Description
+- HCPCS: `https://www.cms.gov/medicare/coding/medhcpcsgeninfo` (Alpha-Numeric ZIPs)
+- NPI: `https://download.cms.gov/nppes/NPI_Files.html` (Monthly/Weekly CSV ZIPs)
+- LOINC: `https://loinc.org/downloads/loinc/` (registration required)
+- RxNorm: `https://www.nlm.nih.gov/research/umls/rxnorm/docs/rxnormfiles.html` (UMLS credentials often required) or use RxNav APIs
+- SNOMED CT US: `https://www.nlm.nih.gov/healthit/snomedct/us_edition.html` (UMLS license)

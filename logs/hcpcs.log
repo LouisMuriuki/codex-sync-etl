@@ -1,1 +1,8 @@
 2025-11-25 14:52:34,595 - INFO - root - Using existing file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/hcpcs_codes_2024.csv
+2025-11-29 19:47:10,055 - INFO - root - Using existing file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/hcpcs_codes_2024.csv
+2025-11-30 19:17:35,622 - INFO - root - Using existing file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/hcpcs_codes_2024.csv
+2025-11-30 19:21:31,286 - INFO - root - ============================================================
+2025-11-30 19:21:31,286 - INFO - root - Starting HCPCS processor
+2025-11-30 19:21:31,286 - INFO - root - ============================================================
+2025-11-30 19:21:33,613 - INFO - root - 📁 Using local file fallback: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/hcpcs_codes_2024.csv
+2025-11-30 19:21:33,613 - INFO - root -    Source: LOCAL FILE (online download failed or unavailable)

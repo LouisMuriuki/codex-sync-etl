@@ -1,0 +1,19 @@
+2025-11-30 19:16:36,374 - INFO - root - Using existing file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/loinc_sample.csv
+2025-11-30 19:17:02,487 - INFO - root - Using existing file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/loinc_sample.csv
+2025-11-30 19:22:09,383 - INFO - root - ============================================================
+2025-11-30 19:22:09,383 - INFO - root - Starting LOINC processor
+2025-11-30 19:22:09,383 - INFO - root - ============================================================
+2025-11-30 19:22:09,383 - INFO - root - 🌐 Attempting online download first: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/loinc_sample.csv
+2025-11-30 19:22:09,383 - INFO - root -    Source: HARDCODED URL
+2025-11-30 19:22:09,383 - INFO - root -    URL: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-11-30 19:22:09,383 - INFO - root -    Download attempt 1/3...
+2025-11-30 19:22:12,393 - WARNING - root -    Download attempt 1 failed: 503 Server Error: Service Unavailable for url: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-11-30 19:22:12,393 - INFO - root -    Download attempt 2/3...
+2025-11-30 19:22:13,359 - WARNING - root -    Download attempt 2 failed: 503 Server Error: Service Unavailable for url: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-11-30 19:22:13,359 - INFO - root -    Download attempt 3/3...
+2025-11-30 19:22:14,553 - WARNING - root -    Download attempt 3 failed: 503 Server Error: Service Unavailable for url: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-11-30 19:22:14,554 - WARNING - root - ❌ ONLINE DOWNLOAD FAILED - All download attempts exhausted
+2025-11-30 19:22:14,554 - WARNING - root -    Last error: 503 Server Error: Service Unavailable for url: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-11-30 19:22:14,554 - INFO - root -    Falling back to local file check...
+2025-11-30 19:22:14,554 - INFO - root - 📁 Using local file fallback: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/loinc_sample.csv
+2025-11-30 19:22:14,554 - INFO - root -    Source: LOCAL FILE (online download failed or unavailable)

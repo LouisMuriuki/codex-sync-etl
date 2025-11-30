@@ -8,6 +8,7 @@ PROJECT_ROOT = CURRENT_DIR.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 import pandas as pd
+import logging
 
 from utils.common_functions import (
     setup_logging,
@@ -16,6 +17,7 @@ from utils.common_functions import (
     save_to_formats,
     basic_cleanup,
     save_invalid_rows,
+    resolve_default_icd10who_url,
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,8 +60,17 @@ def clean_icd10_data(df: pd.DataFrame) -> pd.DataFrame:
 
 def main():
     setup_logging(LOG_DIR / "icd10who.log")
-    raw_path = ensure_file(RAW_FILE, "ICD10WHO_URL", timeout=30, retries=3)
-    raw_df = pd.read_csv(raw_path, dtype=str)
+    logging.info("=" * 60)
+    logging.info("Starting ICD-10 WHO processor")
+    logging.info("=" * 60)
+    raw_path = ensure_file(
+        RAW_FILE,
+        "ICD10WHO_URL",
+        timeout=30,
+        retries=3,
+        url_override=resolve_default_icd10who_url(),
+    )
+    raw_df = pd.read_csv(raw_path, dtype=str, on_bad_lines="skip", quotechar='"', escapechar='\\')
     valid_df, invalid_df = validate_icd10_data(raw_df)
     if not invalid_df.empty:
         save_invalid_rows(invalid_df, ERROR_DIR / "icd10who_invalid")
