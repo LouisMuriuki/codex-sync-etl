@@ -17,3 +17,24 @@
 2025-11-30 19:22:14,554 - INFO - root -    Falling back to local file check...
 2025-11-30 19:22:14,554 - INFO - root - 📁 Using local file fallback: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/loinc_sample.csv
 2025-11-30 19:22:14,554 - INFO - root -    Source: LOCAL FILE (online download failed or unavailable)
+2025-12-01 22:34:25,885 - INFO - root - ============================================================
+2025-12-01 22:34:25,885 - INFO - root - Starting LOINC processor
+2025-12-01 22:34:25,886 - INFO - root - ============================================================
+2025-12-01 22:34:25,886 - INFO - root - 🔍 Checking file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/loinc_sample.csv
+2025-12-01 22:34:25,886 - INFO - root -    Absolute path: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/loinc_sample.csv
+2025-12-01 22:34:25,886 - INFO - root -    File exists: True
+2025-12-01 22:34:25,886 - INFO - root - 🌐 Attempting online download first: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/loinc_sample.csv
+2025-12-01 22:34:25,886 - INFO - root -    Source: HARDCODED URL
+2025-12-01 22:34:25,886 - INFO - root -    URL: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-12-01 22:34:25,886 - INFO - root -    Download attempt 1/3...
+2025-12-01 22:34:27,047 - WARNING - root -    Download attempt 1 failed: 503 Server Error: Service Unavailable for url: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-12-01 22:34:27,048 - INFO - root -    Download attempt 2/3...
+2025-12-01 22:34:27,997 - WARNING - root -    Download attempt 2 failed: 503 Server Error: Service Unavailable for url: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-12-01 22:34:27,997 - INFO - root -    Download attempt 3/3...
+2025-12-01 22:34:28,985 - WARNING - root -    Download attempt 3 failed: 503 Server Error: Service Unavailable for url: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-12-01 22:34:28,985 - WARNING - root - ❌ ONLINE DOWNLOAD FAILED - All download attempts exhausted
+2025-12-01 22:34:28,985 - WARNING - root -    Last error: 503 Server Error: Service Unavailable for url: https://loinc.org/downloads/loinc-table/loinc-table.zip
+2025-12-01 22:34:28,985 - INFO - root -    Falling back to local file check...
+2025-12-01 22:34:28,986 - INFO - root - 🔍 Final check - File exists: True
+2025-12-01 22:34:28,986 - INFO - root - 📁 Using local file: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/loinc_sample.csv
+2025-12-01 22:34:28,986 - INFO - root -    Source: LOCAL FILE (online download failed or unavailable)

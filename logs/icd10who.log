@@ -28,3 +28,20 @@
 2025-11-30 19:21:49,236 - INFO - root -    Falling back to local file check...
 2025-11-30 19:21:49,236 - INFO - root - 📁 Using local file fallback: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/icd10who_codes_2024.csv
 2025-11-30 19:21:49,237 - INFO - root -    Source: LOCAL FILE (online download failed or unavailable)
+2025-11-30 19:57:23,616 - INFO - root - ============================================================
+2025-11-30 19:57:23,617 - INFO - root - Starting ICD-10 WHO processor
+2025-11-30 19:57:23,617 - INFO - root - ============================================================
+2025-11-30 19:57:24,594 - INFO - root - 🌐 Attempting online download first: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/icd10who_codes_2024.csv
+2025-11-30 19:57:24,594 - INFO - root -    Source: HARDCODED URL
+2025-11-30 19:57:24,595 - INFO - root -    URL: https://icd.who.int/browse10/2025/en/Download/GetICD10CSV
+2025-11-30 19:57:24,595 - INFO - root -    Download attempt 1/3...
+2025-11-30 19:57:24,960 - WARNING - root -    Download attempt 1 failed: HTTPSConnectionPool(host='icd.who.int', port=443): Max retries exceeded with url: /browse10/2025/en/Download/GetICD10CSV (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)')))
+2025-11-30 19:57:24,960 - INFO - root -    Download attempt 2/3...
+2025-11-30 19:57:25,498 - WARNING - root -    Download attempt 2 failed: HTTPSConnectionPool(host='icd.who.int', port=443): Max retries exceeded with url: /browse10/2025/en/Download/GetICD10CSV (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)')))
+2025-11-30 19:57:25,498 - INFO - root -    Download attempt 3/3...
+2025-11-30 19:57:25,817 - WARNING - root -    Download attempt 3 failed: HTTPSConnectionPool(host='icd.who.int', port=443): Max retries exceeded with url: /browse10/2025/en/Download/GetICD10CSV (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)')))
+2025-11-30 19:57:25,818 - WARNING - root - ❌ ONLINE DOWNLOAD FAILED - All download attempts exhausted
+2025-11-30 19:57:25,818 - WARNING - root -    Last error: HTTPSConnectionPool(host='icd.who.int', port=443): Max retries exceeded with url: /browse10/2025/en/Download/GetICD10CSV (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)')))
+2025-11-30 19:57:25,818 - INFO - root -    Falling back to local file check...
+2025-11-30 19:57:25,818 - INFO - root - 📁 Using local file fallback: /Users/lui/Desktop/Develop/python/codex-sync-etl/input/icd10who_codes_2024.csv
+2025-11-30 19:57:25,818 - INFO - root -    Source: LOCAL FILE (online download failed or unavailable)

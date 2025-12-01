@@ -86,17 +86,28 @@ def ensure_file(
     """
     Ensure file exists at raw_path. Tries online download first, falls back to local file if download fails.
     """
+    # Ensure we're working with absolute path
+    raw_path = Path(raw_path).resolve()
+    
     # Determine URL source
     env_url = os.getenv(url_env_var, "")
     url = env_url or (url_override or "")
     
-    # Log source type
+    # Log source type and path info
+    logging.info(f"🔍 Checking file: {raw_path}")
+    logging.info(f"   Absolute path: {raw_path}")
+    logging.info(f"   File exists: {raw_path.exists()}")
+    
     if url_override and not env_url:
         source_type = "HARDCODED URL"
     elif env_url:
         source_type = f"ENV VAR ({url_env_var})"
+    elif url_override is None:
+        source_type = "URL RESOLUTION FAILED"
     else:
         source_type = "UNKNOWN"
+    
+    last_error = None
     
     # Try online download first if URL is available
     if url:
@@ -105,7 +116,6 @@ def ensure_file(
         logging.info(f"   URL: {url}")
         
         raw_path.parent.mkdir(parents=True, exist_ok=True)
-        last_error = None
         for attempt in range(1, retries + 1):
             try:
                 logging.info(f"   Download attempt {attempt}/{retries}...")
@@ -124,7 +134,6 @@ def ensure_file(
                         if not members:
                             raise ValueError("Zip file contains no files")
 
-                        # Candidate selection: prefer CSV/TXT/TSV; apply regex filters if provided
                         def is_textual(name: str) -> bool:
                             return name.lower().endswith((".csv", ".txt", ".tsv"))
 
@@ -176,52 +185,77 @@ def ensure_file(
         logging.warning("❌ ONLINE DOWNLOAD FAILED - All download attempts exhausted")
         logging.warning(f"   Last error: {last_error}")
         logging.info("   Falling back to local file check...")
+    else:
+        # No URL available, check local file first
+        if url_override is None:
+            logging.info(f"📁 URL resolution failed (could not find valid URL), checking for local file: {raw_path}")
+        else:
+            logging.info(f"📁 No URL available (no {url_env_var} env var), checking for local file: {raw_path}")
     
-    # Fallback to local file
+    # Fallback to local file (always check, whether download failed or no URL was available)
+    logging.info(f"🔍 Final check - File exists: {raw_path.exists()}")
     if raw_path.exists():
-        logging.info(f"📁 Using local file fallback: {raw_path}")
+        logging.info(f"📁 Using local file: {raw_path}")
         logging.info("   Source: LOCAL FILE (online download failed or unavailable)")
         return raw_path
     
-    # No URL and no local file - raise error
+    # No URL and no local file - raise error with helpful debugging info
+    error_msg = f"Input not found at {raw_path}"
+    error_msg += f"\n   Absolute path checked: {raw_path}"
+    error_msg += f"\n   Parent directory exists: {raw_path.parent.exists()}"
+    if raw_path.parent.exists():
+        error_msg += f"\n   Files in parent directory: {list(raw_path.parent.iterdir())[:10]}"
+    
     if not url:
-        raise FileNotFoundError(f"Input not found at {raw_path} and {url_env_var} is not set.")
+        if url_override is None:
+            error_msg += f"\n   URL resolution failed (no {url_env_var} env var and url_override is None)"
+        else:
+            error_msg += f"\n   {url_env_var} is not set"
+        raise FileNotFoundError(error_msg)
     else:
-        raise FileNotFoundError(f"Input not found at {raw_path} and online download failed: {last_error}")
+        error_msg += f"\n   Online download failed: {last_error}"
+        raise FileNotFoundError(error_msg)
 
  
 
 
 def resolve_default_icd10cm_url(year: Optional[int] = None, timeout: int = 8) -> Optional[str]:
     """
-    Try to resolve the latest ICD-10-CM code file for a year; fallback to previous.
+    Return hardcoded ICD-10-CM URL. Tries current year first, falls back to previous year.
     """
     y = year or datetime.utcnow().year
+    # Always return a URL - let the download attempt handle errors
+    # Try current year first, fallback to previous year
     for candidate_year in (y, y - 1):
         url = f"https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/{candidate_year}/icd10cm_codes_{candidate_year}.txt"
+        # Quick HEAD check to prefer working URL, but always return something
         try:
             r = requests.head(url, timeout=timeout)
             if r.ok:
                 return url
         except Exception:
             continue
-    return None
+    # Return current year URL even if HEAD check failed (download will handle errors)
+    return f"https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/{y}/icd10cm_codes_{y}.txt"
 
 
 def resolve_default_hcpcs_url(year: Optional[int] = None, timeout: int = 8) -> Optional[str]:
     """
-    Resolve CMS HCPCS ZIP for year; fallback to previous if current missing.
+    Return hardcoded HCPCS URL. Tries current year first, falls back to previous year.
     """
     y = year or datetime.utcnow().year
+    # Always return a URL - let the download attempt handle errors
     for candidate_year in (y, y - 1):
         url = f"https://www.cms.gov/files/zip/{candidate_year}-alpha-numeric-hcpcs-file.zip"
+        # Quick HEAD check to prefer working URL, but always return something
         try:
             r = requests.head(url, timeout=timeout)
             if r.ok:
                 return url
         except Exception:
             continue
-    return None
+    # Return current year URL even if HEAD check failed (download will handle errors)
+    return f"https://www.cms.gov/files/zip/{y}-alpha-numeric-hcpcs-file.zip"
 
 
 def resolve_latest_npi_monthly_zip(timeout: int = 12) -> Optional[str]:
